@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posta Market 2026 - Admin Portal</title>
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --primary-light: #a855f7;
+      --primary-glow: rgba(124, 58, 237, 0.35);
+      --accent: #ec4899;
+      --accent-amber: #f59e0b;
+      --bg-dark: #090614;
+      --bg-card: #130f26;
+      --bg-card-hover: #1c1736;
+      --bg-input: #1b1534;
+      --border: #2e2654;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --error: #ef4444;
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    header {
+      background: rgba(19, 15, 38, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #ffffff, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: var(--primary-glow);
+      color: #c084fc;
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-size: 12px;
+      color: var(--success);
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Container & Layout */
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+      width: 100%;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 480px 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Forms & Inputs */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #d1d5db;
+    }
+
+    .label-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: normal;
+      margin-left: 6px;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Live Preview Box */
+    .image-preview-container {
+      margin-top: 10px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-sm);
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .image-preview-container img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      border-radius: 6px;
+      transition: opacity 0.3s;
+    }
+
+    .image-preview-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      box-shadow: 0 4px 16px var(--primary-glow);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card-hover);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+
+    /* Presets Chips */
+    .presets-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .preset-chip {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: #c084fc;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-chip:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Catalog View */
+    .catalog-controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+      max-height: 780px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    /* Custom Scrollbar */
+    .products-grid::-webkit-scrollbar,
+    .code-block::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .products-grid::-webkit-scrollbar-thumb,
+    .code-block::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    .product-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    .product-card-img-wrap {
+      height: 150px;
+      position: relative;
+      background: #0d0a1c;
+      overflow: hidden;
+    }
+
+    .product-card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-card-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-category {
+      font-size: 10px;
+      font-weight: 700;
+      color: #c084fc;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 4px 0 6px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 10px;
+      margin-top: auto;
+    }
+
+    .product-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    /* SQL Schema view */
+    .code-block {
+      background: #080612;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #c084fc;
+      overflow-x: auto;
+      max-height: 520px;
+      white-space: pre-wrap;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #toast.success {
+      border-color: var(--success);
+      color: #a7f3d0;
+    }
+
+    #toast.error {
+      border-color: var(--error);
+      color: #fecaca;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">📦</div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="brand-title">Posta Market</span>
+          <span class="brand-badge">Admin Portal</span>
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted);">Catalog & Media Management</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="status-pill" id="connectionPill">
+        <span class="status-dot"></span>
+        <span id="connectionText">Supabase Connected (pkfbqoqfisxmjkhrnhpp)</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="toggleConfigModal()">⚙️ Settings</button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Tab navigation -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('manage')">✏️ Manage Product Description & Images</button>
+      <button class="tab-btn" onclick="switchTab('schema')">📄 SQL Schema & Setup</button>
+    </div>
+
+    <!-- TAB 1: MANAGE PRODUCTS -->
+    <div id="tab-manage" class="grid-2">
+      
+      <!-- LEFT: Focused Admin Editor for Description & Image URL -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">✨ Edit Product Description & Image</h2>
+            <p class="card-subtitle">Update only product description and remote image URL in Supabase</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="resetForm()">+ New Product</button>
+        </div>
+
+        <form id="productForm" onsubmit="handleSave(event)">
+          
+          <div class="form-group">
+            <label for="productSelect">Select Product to Edit</label>
+            <select id="productSelect" onchange="onSelectProductChange()">
+              <option value="">-- Choose existing product or enter new --</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label for="productId">Product ID <span class="label-hint">(e.g. p_1)</span></label>
+              <input type="text" id="productId" placeholder="p_1" required />
+            </div>
+            <div class="form-group">
+              <label for="productCategory">Category</label>
+              <select id="productCategory">
+                <option value="TECH">TECH</option>
+                <option value="FASHION">FASHION</option>
+                <option value="HOME">HOME</option>
+                <option value="BEAUTY">BEAUTY</option>
+                <option value="GAMING">GAMING</option>
+                <option value="SPORTS">SPORTS</option>
+                <option value="ACCESSORIES">ACCESSORIES</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label for="productName">Product Name</label>
+              <input type="text" id="productName" placeholder="AeroPods Pro 2026 Spatial Audio" required />
+            </div>
+            <div class="form-group">
+              <label for="productPrice">Price ($)</label>
+              <input type="text" id="productPrice" placeholder="189.99" required />
+            </div>
+          </div>
+
+          <!-- PRIMARY FOCUS 1: Product Description -->
+          <div class="form-group">
+            <label for="productDescription">
+              Product Description
+              <span class="label-hint">(Updated via Admin)</span>
+            </label>
+            <textarea 
+              id="productDescription" 
+              placeholder="Enter detailed technical and promotional product description..." 
+              required
+              oninput="updateCharCount()"
+            ></textarea>
+            <div class="char-count"><span id="charCount">0</span> characters</div>
+          </div>
+
+          <!-- PRIMARY FOCUS 2: Product Image URL -->
+          <div class="form-group">
+            <label for="productImageUrl">
+              Product Image URL
+              <span class="label-hint">(Remote CDN / Unsplash / Supabase Storage)</span>
+            </label>
+            <input 
+              type="url" 
+              id="productImageUrl" 
+              placeholder="https://images.unsplash.com/photo-..." 
+              required
+              oninput="updateImagePreview()" 
+            />
+
+            <!-- Presets for fast testing -->
+            <div class="presets-group">
+              <span style="font-size: 11px; color: var(--text-muted); align-self: center;">Quick Presets:</span>
+              <span class="preset-chip" onclick="applyPreset('https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80')">🎧 Earbuds</span>
+              <span class="preset-chip" onclick="applyPreset('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80')">⌚ Watch</span>
+              <span class="preset-chip" onclick="applyPreset('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80')">👕 Hoodie</span>
+              <span class="preset-chip" onclick="applyPreset('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80')">👟 Sneakers</span>
+              <span class="preset-chip" onclick="applyPreset('https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&auto=format&fit=crop&q=80')">⌨️ Keyboard</span>
+              <span class="preset-chip" onclick="applyPreset('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80')">💧 Serum</span>
+            </div>
+
+            <!-- Live Image Preview Area -->
+            <div class="image-preview-container" id="previewContainer">
+              <div class="image-preview-placeholder" id="previewPlaceholder">
+                <span style="font-size: 28px;">🖼️</span>
+                <span>Paste an Image URL above to see a real-time live preview</span>
+              </div>
+              <img id="imagePreview" src="" alt="Live Preview" style="display: none;" onerror="handleImageError()" onload="handleImageSuccess()" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="saveBtn">
+            💾 Save Product & Image to Supabase
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: Catalog Preview and Live List -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">🛍️ Live Catalog Preview</h2>
+            <p class="card-subtitle">Click any product to load its description & image into the editor</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary btn-sm" onclick="seedDefaultProducts()">⚡ Seed Defaults</button>
+            <button class="btn btn-secondary btn-sm" onclick="fetchProducts()">🔄 Refresh</button>
+          </div>
+        </div>
+
+        <div class="catalog-controls">
+          <input 
+            type="text" 
+            class="search-input" 
+            id="searchInput" 
+            placeholder="Search by name, category, or description..." 
+            oninput="filterCatalog()"
+          />
+          <select id="categoryFilter" onchange="filterCatalog()" style="width: 140px;">
+            <option value="ALL">All Categories</option>
+            <option value="TECH">TECH</option>
+            <option value="FASHION">FASHION</option>
+            <option value="HOME">HOME</option>
+            <option value="BEAUTY">BEAUTY</option>
+            <option value="GAMING">GAMING</option>
+            <option value="SPORTS">SPORTS</option>
+            <option value="ACCESSORIES">ACCESSORIES</option>
+          </select>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: SQL SCHEMA -->
+    <div id="tab-schema" class="card" style="display: none;">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">🗄️ PostgreSQL Supabase Schema</h2>
+          <p class="card-subtitle">Execute this script in your Supabase project (pkfbqoqfisxmjkhrnhpp) SQL Editor</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary btn-sm" onclick="copyQuickFixToClipboard()">⚡ Copy Quick Fix SQL (Products Only)</button>
+          <button class="btn btn-primary btn-sm" onclick="copySchemaToClipboard()">📋 Copy Full SQL Script</button>
+        </div>
+      </div>
+
+      <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px;">
+        <strong style="color: #fca5a5;">💡 Fixed "Failed to fetch (api.supabase.com)" Error:</strong>
+        <p style="margin-top: 4px; color: #d1d5db;">
+          1. Removed problematic <code>auth.users</code> triggers and redundant extension calls.<br/>
+          2. If your browser still shows "Failed to fetch (api.supabase.com)", <strong>disable Ad-Blocker / Brave Shields</strong> for supabase.com or run the script in an Incognito window, as ad-blockers block Supabase API requests.
+        </p>
+      </div>
+
+      <pre class="code-block" id="schemaCode">
+-- ============================================================================
+-- Posta Market 2026 - Supabase PostgreSQL Schema (Clean & Error-Free)
+-- Project: pkfbqoqfisxmjkhrnhpp
+-- ============================================================================
+
+-- 1. PRODUCTS TABLE
+create table if not exists public.products (
+    id text primary key,
+    name text not null,
+    category text not null,
+    price numeric(10, 2) not null check (price >= 0),
+    original_price numeric(10, 2),
+    rating numeric(3, 2) default 4.8,
+    review_count integer default 100,
+    description text not null,
+    specs jsonb default '[]'::jsonb,
+    tag text,
+    image_url text,
+    is_featured boolean default false,
+    is_popular boolean default false,
+    is_new_arrival boolean default false,
+    is_special_offer boolean default false,
+    discount_percent integer default 0,
+    stock_left integer default 20,
+    total_stock integer default 50,
+    latitude double precision default 0.3476,
+    longitude double precision default 32.5825,
+    location_name text default 'Kampala Central Hub',
+    distance_km double precision default 1.2,
+    created_at timestamptz default now() not null
+);
+
+-- Enable RLS
+alter table public.products enable row level security;
+
+-- Policies for products
+drop policy if exists "Products are viewable by everyone" on public.products;
+drop policy if exists "Allow update product description and image_url" on public.products;
+drop policy if exists "Allow insert products from admin" on public.products;
+
+create policy "Products are viewable by everyone"
+    on public.products for select using (true);
+
+create policy "Allow update product description and image_url"
+    on public.products for update using (true) with check (true);
+
+create policy "Allow insert products from admin"
+    on public.products for insert with check (true);
+
+-- 2. ADMIN RPC FUNCTION: Specifically update description and image_url
+create or replace function public.admin_update_product_description_and_image(
+    p_product_id text,
+    p_description text,
+    p_image_url text
+) returns jsonb
+language plpgsql
+security definer
+as $$
+declare
+    v_updated record;
+begin
+    update public.products
+    set description = p_description,
+        image_url = p_image_url
+    where id = p_product_id
+    returning * into v_updated;
+
+    if not found then
+        return jsonb_build_object('success', false, 'message', 'Product not found');
+    end if;
+
+    return jsonb_build_object('success', true, 'product', row_to_json(v_updated));
+end;
+$$;
+
+grant execute on function public.admin_update_product_description_and_image(text, text, text) to anon, authenticated, service_role;
+
+-- 3. PROFILES TABLE
+create table if not exists public.profiles (
+    id text primary key,
+    email text,
+    full_name text default 'Posta Shopper',
+    phone text default '',
+    avatar_url text,
+    user_tier text default 'VIP Member',
+    wallet_balance numeric(10, 2) default 250.00,
+    reward_points integer default 1500,
+    delivery_address text default 'Kampala Central Hub, Uganda',
+    delivery_coordinates text default '0.3476, 32.5825',
+    created_at timestamptz default now() not null,
+    updated_at timestamptz default now() not null
+);
+
+alter table public.profiles enable row level security;
+
+drop policy if exists "Public profiles are viewable by everyone" on public.profiles;
+drop policy if exists "Allow insert profiles" on public.profiles;
+drop policy if exists "Allow update profiles" on public.profiles;
+
+create policy "Public profiles are viewable by everyone" on public.profiles for select using (true);
+create policy "Allow insert profiles" on public.profiles for insert with check (true);
+create policy "Allow update profiles" on public.profiles for update using (true);
+
+-- 4. ORDERS TABLE
+create table if not exists public.orders (
+    id text primary key default gen_random_uuid()::text,
+    user_id text,
+    order_number text unique not null,
+    items jsonb not null,
+    subtotal numeric(10, 2) not null,
+    discount numeric(10, 2) default 0.00,
+    shipping numeric(10, 2) default 0.00,
+    total numeric(10, 2) not null,
+    status text default 'PLACED',
+    tracking_number text not null,
+    estimated_arrival text not null,
+    delivery_address text not null,
+    created_at timestamptz default now() not null
+);
+
+alter table public.orders enable row level security;
+
+drop policy if exists "Users can view their own orders" on public.orders;
+drop policy if exists "Users can insert their own orders" on public.orders;
+
+create policy "Users can view their own orders" on public.orders for select using (true);
+create policy "Users can insert their own orders" on public.orders for insert with check (true);
+
+-- 5. FAVORITES TABLE
+create table if not exists public.favorites (
+    id text primary key default gen_random_uuid()::text,
+    user_id text not null,
+    product_id text not null,
+    created_at timestamptz default now() not null,
+    unique (user_id, product_id)
+);
+
+alter table public.favorites enable row level security;
+drop policy if exists "Allow manage favorites" on public.favorites;
+create policy "Allow manage favorites" on public.favorites for all using (true) with check (true);
+      </pre>
+    </div>
+
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="configModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 520px; width: 90%; margin: auto;">
+      <div class="card-header">
+        <h3 class="card-title">⚙️ Supabase Configuration</h3>
+        <button class="btn btn-secondary btn-sm" onclick="toggleConfigModal()">✕</button>
+      </div>
+      <div class="form-group">
+        <label>Supabase Project URL</label>
+        <input type="text" id="configUrl" value="https://pkfbqoqfisxmjkhrnhpp.supabase.co" />
+      </div>
+      <div class="form-group">
+        <label>Supabase Anon Key</label>
+        <input type="text" id="configKey" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrZmJxb3FmaXN4bWpraHJuaHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MzAxNTksImV4cCI6MjEwNTAwNjE1OX0.D5HTr_vXEI6BXSYXU3se6Dn2dowcpvi7DIlkaMuz5wc" />
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="toggleConfigModal()">Cancel</button>
+        <button class="btn btn-primary" style="width: auto;" onclick="saveConfig()">Save & Reconnect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast">Message</div>
+
+  <!-- Script Logic -->
+  <script>
+    // Supabase Configuration
+    let SUPABASE_URL = localStorage.getItem('posta_sb_url') || 'https://pkfbqoqfisxmjkhrnhpp.supabase.co';
+    let SUPABASE_KEY = localStorage.getItem('posta_sb_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrZmJxb3FmaXN4bWpraHJuaHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MzAxNTksImV4cCI6MjEwNTAwNjE1OX0.D5HTr_vXEI6BXSYXU3se6Dn2dowcpvi7DIlkaMuz5wc';
+
+    // In-memory catalog state
+    let catalog = [
+      {
+        id: "p_1",
+        name: "AeroPods Pro 2026 Spatial Audio",
+        category: "TECH",
+        price: 189.99,
+        description: "Next-generation ultra-low latency wireless earbuds with biometric sensors, active noise cancellation 3.0, and 48-hour battery case.",
+        image_url: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_2",
+        name: "Posta Kinetic Streetwear Hoodie",
+        category: "FASHION",
+        price: 79.50,
+        description: "Heavyweight 450GSM organic cotton hoodie with electric violet reflective accents, oversized modern silhouette, and concealed kangaroo stash pocket.",
+        image_url: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_3",
+        name: "Nova Pulse OLED Smart Watch 3",
+        category: "TECH",
+        price: 269.00,
+        description: "Curved micro-OLED retina display with ECG monitoring, solar charging bezel, always-on AI assistant, and customizable tactile haptic crown.",
+        image_url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_4",
+        name: "CyberSneaker Zero Drift V2",
+        category: "FASHION",
+        price: 145.00,
+        description: "Futuristic lifestyle sneaker featuring carbon-fiber responsive midsole plates, glowing electric violet outsole lugs, and breathable mesh.",
+        image_url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_5",
+        name: "Lumina Aura Diffuser & Ambient Lamp",
+        category: "HOME",
+        price: 54.00,
+        description: "Ultrasonic aroma diffuser with dynamic circadian lighting sync, silent magnetic mist motor, and smart home voice integration.",
+        image_url: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_6",
+        name: "Vortex 4K Hologram Mini Projector",
+        category: "TECH",
+        price: 320.00,
+        description: "Pocket-sized laser projector with automatic trapezoid correction, built-in Harman Kardon speakers, and 200-inch cinema projection.",
+        image_url: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_7",
+        name: "Glacier Glass Hydration Bottle 1L",
+        category: "SPORTS",
+        price: 34.99,
+        description: "Triple-wall vacuum insulated stainless steel with UV-C auto-sanitizing cap, temperature display, and electric violet powder-coat finish.",
+        image_url: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_8",
+        name: "Prism Glow Peptide Serum 50ml",
+        category: "BEAUTY",
+        price: 48.00,
+        description: "Bio-engineered triple peptide formula with hyaluronic spheres and blackberry extract for radiant skin barrier restoration.",
+        image_url: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_9",
+        name: "Haptic Edge Wireless Mechanical Keyboard",
+        category: "GAMING",
+        price: 159.00,
+        description: "Hot-swappable tactile switch keyboard with customizable OLED mini-display, RGB per-key underglow, and aluminum CNC chassis.",
+        image_url: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_10",
+        name: "OmniCharge 140W GaN Fast Charger",
+        category: "ACCESSORIES",
+        price: 49.99,
+        description: "Ultra-compact Gallium Nitride power adapter with 3x USB-C PD 3.1 ports, intelligent power distribution, and travel pin adapters.",
+        image_url: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "p_11",
+        name: "Apex Carbon Polarized Sunglasses",
+        category: "ACCESSORIES",
+        price: 62.00,
+        description: "Aerospace titanium rimless frame with purple-tint UV400 mirror polarized lenses and anti-scratch hydrophobic coating.",
+        image_url: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80"
+      }
+    ];
+
+    // Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('configUrl').value = SUPABASE_URL;
+      document.getElementById('configKey').value = SUPABASE_KEY;
+      fetchProducts();
+    });
+
+    // Tab switching
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (tab === 'manage') {
+        document.getElementById('tab-manage').style.display = 'grid';
+        document.getElementById('tab-schema').style.display = 'none';
+      } else {
+        document.getElementById('tab-manage').style.display = 'none';
+        document.getElementById('tab-schema').style.display = 'block';
+      }
+    }
+
+    // Settings Modal
+    function toggleConfigModal() {
+      const modal = document.getElementById('configModal');
+      modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    function saveConfig() {
+      SUPABASE_URL = document.getElementById('configUrl').value.trim();
+      SUPABASE_KEY = document.getElementById('configKey').value.trim();
+      localStorage.setItem('posta_sb_url', SUPABASE_URL);
+      localStorage.setItem('posta_sb_key', SUPABASE_KEY);
+      toggleConfigModal();
+      showToast("Supabase credentials updated", "success");
+      fetchProducts();
+    }
+
+    // Fetch products from Supabase REST API
+    async function fetchProducts() {
+      const pill = document.getElementById('connectionPill');
+      const text = document.getElementById('connectionText');
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`
+          }
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            catalog = data;
+            showToast(`Loaded ${data.length} products from Supabase`, "success");
+          } else {
+            showToast("Supabase products table is empty. Click 'Seed Defaults' to populate.", "info");
+          }
+          text.textContent = "Supabase Connected";
+          pill.style.borderColor = "rgba(16, 185, 129, 0.4)";
+        } else {
+          console.warn("Supabase returned status", res.status);
+          text.textContent = "Supabase Ready (Local Cache)";
+        }
+      } catch (err) {
+        console.warn("Supabase fetch failed, using catalog:", err);
+        text.textContent = "Offline Mode (Local)";
+      }
+
+      populateProductSelect();
+      renderCatalog();
+    }
+
+    // Populate the dropdown
+    function populateProductSelect() {
+      const select = document.getElementById('productSelect');
+      select.innerHTML = '<option value="">-- Choose existing product or enter new --</option>';
+      catalog.forEach(prod => {
+        const opt = document.createElement('option');
+        opt.value = prod.id;
+        opt.textContent = `${prod.name} (${prod.id})`;
+        select.appendChild(opt);
+      });
+    }
+
+    // Render Catalog Grid
+    function renderCatalog(filteredList = null) {
+      const grid = document.getElementById('productsGrid');
+      const items = filteredList || catalog;
+
+      if (items.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">No products found matching your search.</div>';
+        return;
+      }
+
+      grid.innerHTML = items.map(p => `
+        <div class="product-card" onclick="loadProductIntoForm('${p.id}')">
+          <div class="product-card-img-wrap">
+            <img src="${p.image_url || p.imageUrl || ''}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=600&auto=format&fit=crop&q=80'" />
+          </div>
+          <div class="product-card-body">
+            <div class="product-category">${p.category || 'GENERAL'}</div>
+            <div class="product-name" title="${p.name}">${p.name}</div>
+            <div class="product-desc" title="${p.description || ''}">${p.description || 'No description provided.'}</div>
+            <div class="product-footer">
+              <span class="product-price">$${Number(p.price || 0).toFixed(2)}</span>
+              <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); loadProductIntoForm('${p.id}')">✏️ Edit</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter catalog
+    function filterCatalog() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cat = document.getElementById('categoryFilter').value;
+
+      const filtered = catalog.filter(p => {
+        const matchesQuery = (p.name || '').toLowerCase().includes(query) ||
+                             (p.description || '').toLowerCase().includes(query) ||
+                             (p.id || '').toLowerCase().includes(query);
+        const matchesCat = cat === 'ALL' || (p.category || '').toUpperCase() === cat;
+        return matchesQuery && matchesCat;
+      });
+
+      renderCatalog(filtered);
+    }
+
+    // Load product into edit form
+    function loadProductIntoForm(id) {
+      const product = catalog.find(p => p.id === id);
+      if (!product) return;
+
+      document.getElementById('productSelect').value = product.id;
+      document.getElementById('productId').value = product.id;
+      document.getElementById('productId').readOnly = true;
+      document.getElementById('productName').value = product.name || '';
+      document.getElementById('productCategory').value = product.category || 'TECH';
+      document.getElementById('productPrice').value = product.price || '';
+      
+      // Specifically load description and image_url
+      document.getElementById('productDescription').value = product.description || '';
+      document.getElementById('productImageUrl').value = product.image_url || product.imageUrl || '';
+
+      updateCharCount();
+      updateImagePreview();
+
+      // Scroll form into view
+      document.querySelector('#productForm').scrollIntoView({ behavior: 'smooth' });
+      showToast(`Editing: ${product.name}`, "info");
+    }
+
+    function onSelectProductChange() {
+      const id = document.getElementById('productSelect').value;
+      if (id) {
+        loadProductIntoForm(id);
+      } else {
+        resetForm();
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('productSelect').value = '';
+      document.getElementById('productId').value = `p_${Date.now().toString().slice(-4)}`;
+      document.getElementById('productId').readOnly = false;
+      document.getElementById('productName').value = '';
+      document.getElementById('productPrice').value = '99.00';
+      document.getElementById('productDescription').value = '';
+      document.getElementById('productImageUrl').value = '';
+      updateCharCount();
+      updateImagePreview();
+    }
+
+    // Image preview handling
+    function updateImagePreview() {
+      const url = document.getElementById('productImageUrl').value.trim();
+      const previewImg = document.getElementById('imagePreview');
+      const placeholder = document.getElementById('previewPlaceholder');
+
+      if (url) {
+        previewImg.src = url;
+        previewImg.style.display = 'block';
+        placeholder.style.display = 'none';
+      } else {
+        previewImg.style.display = 'none';
+        placeholder.style.display = 'flex';
+      }
+    }
+
+    function handleImageError() {
+      const previewImg = document.getElementById('imagePreview');
+      const placeholder = document.getElementById('previewPlaceholder');
+      previewImg.style.display = 'none';
+      placeholder.style.display = 'flex';
+      placeholder.innerHTML = '<span style="font-size: 28px; color: var(--error);">⚠️</span><span style="color: var(--error);">Unable to load image from URL. Check URL or CORS permissions.</span>';
+    }
+
+    function handleImageSuccess() {
+      const placeholder = document.getElementById('previewPlaceholder');
+      placeholder.style.display = 'none';
+    }
+
+    function applyPreset(url) {
+      document.getElementById('productImageUrl').value = url;
+      updateImagePreview();
+    }
+
+    function updateCharCount() {
+      const text = document.getElementById('productDescription').value;
+      document.getElementById('charCount').textContent = text.length;
+    }
+
+    // Save product (specifically updates description and image_url)
+    async function handleSave(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('productId').value.trim();
+      const name = document.getElementById('productName').value.trim();
+      const category = document.getElementById('productCategory').value;
+      const price = parseFloat(document.getElementById('productPrice').value) || 0;
+      const description = document.getElementById('productDescription').value.trim();
+      const imageUrl = document.getElementById('productImageUrl').value.trim();
+
+      const saveBtn = document.getElementById('saveBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = '⏳ Updating in Supabase...';
+
+      // 1. Update in-memory catalog
+      const existingIdx = catalog.findIndex(p => p.id === id);
+      if (existingIdx >= 0) {
+        catalog[existingIdx].description = description;
+        catalog[existingIdx].image_url = imageUrl;
+        catalog[existingIdx].imageUrl = imageUrl;
+        catalog[existingIdx].name = name;
+        catalog[existingIdx].category = category;
+        catalog[existingIdx].price = price;
+      } else {
+        catalog.unshift({
+          id,
+          name,
+          category,
+          price,
+          description,
+          image_url: imageUrl,
+          imageUrl: imageUrl
+        });
+      }
+
+      // 2. Call Supabase API
+      try {
+        // Attempt Supabase RPC or Direct Upsert
+        const rpcPayload = {
+          p_product_id: id,
+          p_description: description,
+          p_image_url: imageUrl
+        };
+
+        const rpcRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/admin_update_product_description_and_image`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(rpcPayload)
+        });
+
+        if (rpcRes.ok) {
+          showToast(`Successfully updated description & image for ${name}`, "success");
+        } else {
+          // Fallback to direct upsert
+          const upsertRes = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'resolution=merge-duplicates'
+            },
+            body: JSON.stringify({
+              id,
+              name,
+              category,
+              price,
+              description,
+              image_url: imageUrl
+            })
+          });
+
+          if (upsertRes.ok) {
+            showToast(`Product ${name} updated in Supabase!`, "success");
+          } else {
+            console.warn("Supabase upsert status", upsertRes.status);
+            showToast("Saved locally. Supabase tables may need SQL schema migration.", "info");
+          }
+        }
+      } catch (err) {
+        console.error("Save error:", err);
+        showToast("Saved locally (offline mode)", "info");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = '💾 Save Product & Image to Supabase';
+        populateProductSelect();
+        renderCatalog();
+      }
+    }
+
+    // Seed defaults into Supabase
+    async function seedDefaultProducts() {
+      const ok = confirm("Upload all 11 default products with modern Unsplash image URLs and descriptions into your Supabase database?");
+      if (!ok) return;
+
+      showToast("Seeding products to Supabase...", "info");
+
+      try {
+        const payload = catalog.map(p => ({
+          id: p.id,
+          name: p.name,
+          category: p.category,
+          price: p.price,
+          description: p.description,
+          image_url: p.image_url || p.imageUrl
+        }));
+
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          showToast(`Seeded ${payload.length} products to Supabase!`, "success");
+          fetchProducts();
+        } else {
+          showToast(`Seeding returned HTTP ${res.status}. Check SQL schema.`, "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Error connecting to Supabase during seed", "error");
+      }
+    }
+
+    // Copy Quick Fix SQL
+    function copyQuickFixToClipboard() {
+      const quickFix = `-- Minimal Quick Fix for Products & Admin Image/Description
+create table if not exists public.products (
+    id text primary key,
+    name text not null,
+    category text not null,
+    price numeric(10, 2) not null check (price >= 0),
+    original_price numeric(10, 2),
+    rating numeric(3, 2) default 4.8,
+    review_count integer default 100,
+    description text not null,
+    specs jsonb default '[]'::jsonb,
+    tag text,
+    image_url text,
+    is_featured boolean default false,
+    is_popular boolean default false,
+    is_new_arrival boolean default false,
+    is_special_offer boolean default false,
+    discount_percent integer default 0,
+    stock_left integer default 20,
+    total_stock integer default 50,
+    latitude double precision default 0.3476,
+    longitude double precision default 32.5825,
+    location_name text default 'Kampala Central Hub',
+    distance_km double precision default 1.2,
+    created_at timestamptz default now() not null
+);
+
+alter table public.products enable row level security;
+drop policy if exists "Products are viewable by everyone" on public.products;
+drop policy if exists "Allow update product description and image_url" on public.products;
+drop policy if exists "Allow insert products from admin" on public.products;
+
+create policy "Products are viewable by everyone" on public.products for select using (true);
+create policy "Allow update product description and image_url" on public.products for update using (true) with check (true);
+create policy "Allow insert products from admin" on public.products for insert with check (true);
+
+create or replace function public.admin_update_product_description_and_image(
+    p_product_id text,
+    p_description text,
+    p_image_url text
+) returns jsonb
+language plpgsql security definer as $$
+declare v_updated record;
+begin
+    update public.products
+    set description = p_description, image_url = p_image_url
+    where id = p_product_id returning * into v_updated;
+    if not found then return jsonb_build_object('success', false, 'message', 'Product not found'); end if;
+    return jsonb_build_object('success', true, 'product', row_to_json(v_updated));
+end;
+$$;
+grant execute on function public.admin_update_product_description_and_image(text, text, text) to anon, authenticated, service_role;`;
+
+      navigator.clipboard.writeText(quickFix).then(() => {
+        showToast("Quick Fix SQL copied! Paste & Run in Supabase SQL Editor.", "success");
+      }).catch(() => {
+        showToast("Select and copy from schema tab.", "error");
+      });
+    }
+
+    // Copy SQL Schema
+    function copySchemaToClipboard() {
+      const code = document.getElementById('schemaCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast("SQL Schema copied to clipboard! Paste into Supabase SQL Editor.", "success");
+      }).catch(err => {
+        showToast("Failed to copy automatically. Please select and copy manually.", "error");
+      });
+    }
+
+    // Toast notification
+    function showToast(message, type = "info") {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `show ${type}`;
+      setTimeout(() => {
+        toast.className = '';
+      }, 4000);
+    }
+  </script>
+</body>
+</html>

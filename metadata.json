@@ -1,0 +1,6 @@
+{
+  "name": "Posta Market",
+  "description": "Modern 2026 e-commerce and marketplace app featuring real Google Maps nearby listings in Uganda, live GPS delivery tracking, real-time permissions, and seamless order checkout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
